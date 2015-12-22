@@ -1,0 +1,145 @@
+public class List
+{
+    private Node first;
+    private int i;
+    private Node cursor;
+    private boolean inherits;
+    private Node last;
+    /**
+     * Constructor for objects of class List
+     */
+    public List(){
+        first = null;
+        i = 0;
+        cursor = null;
+    } 
+    
+    public void add(int x){
+      Node k = new Node(x);
+      last = k;
+      if (first == null){
+             first = k;}
+      else{
+            Node temp = first;
+            while(temp.getNext() !=null){           
+                temp = temp.getNext();
+            }
+                temp.setNext(k);
+      }
+      i+=1;
+    }
+            
+    public void show(){
+        if (first == null){
+            System.out.print("[]");
+        }
+        else{
+            Node temp = first;
+            System.out.print("[");
+            while(temp!= null){
+                System.out.print(temp.getValue() + ";");
+                temp = temp.getNext();
+            }
+            System.out.println("]");
+        }        
+    }
+    
+        public int amount(){
+        return i;
+    }
+    
+    public boolean inherits (int c){
+        if(first !=null){
+         cursor = first;
+         while(cursor!= null){
+            if(cursor.getValue() == c){
+                    return true;                    
+                }
+            cursor = cursor.getNext();
+         }
+       }
+       return false;
+    }
+    
+    public void delete(int x){
+            if(inherits(x)){
+                if(cursor != first){
+                    Node temp = first;
+                     while(temp.getNext()!= cursor){
+                      temp = temp.getNext(); 
+                    }
+                    temp.setNext(cursor.next);
+                    i--;
+                }
+                else{
+                    first = first.getNext();
+                    i--;
+                }
+            }   
+    }
+    
+     private Node findMiddle(Node m){
+        Node fast = m.next;
+        Node slow = m;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+    
+    private Node divide(Node n1, Node n2){
+        if(n1 == n2){
+            return n1;
+        }
+        Node middle = findMiddle(n1);
+        Node nextMiddle = middle.next;
+        middle.next = null;
+        Node k1 = divide(n1, middle);
+        Node k2 = divide(nextMiddle, n2);
+        return merge(k1, k2);
+    }
+    
+    private Node merge(Node n1, Node n2){
+        Node current = null;
+        Node currentHead = null;
+        while(n1 != null && n2 != null){
+            if(n1.value < n2.value){
+                if(current == null){
+                    currentHead = n1;
+                    current = n1;
+                }
+                else{
+                    current.next = n1;
+                    current = current.next;
+                }
+                n1 = n1.next;
+            }
+            else{
+                if(current == null){
+                    currentHead = n2;
+                    current = n2;
+                }
+                else{
+                    current.next = n2;
+                    current = current.next;
+                }
+                n2 = n2.next;
+            }
+        }
+        if(n1 != null){
+            current.next = n1;
+          }
+          else{
+              current.next = n2;
+          }
+        return currentHead;
+    } 
+    
+    public void sortieren(){
+        if(first == null){
+            System.out.println("The list is empty!");
+        }
+        first = divide (first, last);
+    }
+}
