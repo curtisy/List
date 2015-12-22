@@ -1,0 +1,28 @@
+public class Node
+{
+    int value;
+    Node next;
+    /**
+     * Constructor for objects of class Node
+     */
+    public Node(int x){
+        value = x;
+        next = null;
+    }
+    
+    public int getValue(){
+        return value;
+    }
+    
+    public void setValue(int i){
+        value = i;        
+    }
+    
+    public Node getNext(){
+        return next;
+    }
+    
+    public void setNext(Node n){
+        next = n;        
+    }
+}
